@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0"?>
 <ruleset name="Framework">
     <description>Règles de formattage personnalisées</description>
@@ -11,18 +10,4 @@
      <file>./public/index.php</file>
 
      <rule ref="PSR12"/>
-=======
-<?xml version="1.0"?>
-<ruleset name="Framework">
-    <description>Règles de formattage personnalisées</description>
-
-    <arg name="colors"/>
-    <arg value="p"/>
-
-     <file>./src</file>
-     <file>./tests</file>
-     <file>./public/index.php</file>
-
-     <rule ref="PSR12"/>
->>>>>>> 824ee1f2ae78c91f01714a910a7e2bb1c4812e7f
 </ruleset>
