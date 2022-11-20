@@ -4,6 +4,7 @@ namespace Tests\Framework;
 
 use App\Blog\BlogModule;
 use Framework\App;
+use Framework\Renderer;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -12,6 +13,14 @@ use Tests\Framework\Modules\StringModule;
 
 class AppTest extends TestCase
 {
+    private $renderer;
+
+    public function setUp(): void
+    {
+        $this->renderer = new Renderer();
+        $this->renderer->addPath(dirname(__DIR__) . '/views');
+    }
+
     public function testRedirectTrailingSlash()
     {
         $app = new App();
@@ -23,7 +32,7 @@ class AppTest extends TestCase
 
     public function testBlog()
     {
-        $app = new App([BlogModule::class]);
+        $app = new App([BlogModule::class], ['renderer' => $this->renderer]);
 
         $request = new ServerRequest('GET', '/blog');
         $response = $app->run($request);
@@ -40,7 +49,7 @@ class AppTest extends TestCase
 
     public function testThrowExceptionIfNoResponseSent()
     {
-        $app = new App([ErroredModule::class]);
+        $app = new App([ErroredModule::class], ['renderer' => $this->renderer]);
         $request = new ServerRequest('GET', '/demo');
         $this->expectException(\Exception::class);
         $app->run($request);
@@ -48,7 +57,7 @@ class AppTest extends TestCase
 
     public function testConvertStringToResponse()
     {
-        $app = new App([StringModule::class]);
+        $app = new App([StringModule::class], ['renderer' => $this->renderer]);
         $request = new ServerRequest('GET', '/demo');
         $response = $app->run($request);
         $this->assertInstanceOf(ResponseInterface::class, $response);
