@@ -4,7 +4,7 @@ namespace Tests\Framework;
 
 use App\Blog\BlogModule;
 use Framework\App;
-use Framework\Renderer;
+use Framework\Renderer\PHPRenderer;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -17,7 +17,7 @@ class AppTest extends TestCase
 
     public function setUp(): void
     {
-        $this->renderer = new Renderer();
+        $this->renderer = new PHPRenderer();
         $this->renderer->addPath(dirname(__DIR__) . '/views');
     }
 
