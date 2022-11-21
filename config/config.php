@@ -8,6 +8,10 @@ use Framework\Router\RouterTwigExtension;
 use function DI\get;
 
 return [
+    'database.host'=> 'localhost',
+    'database.username'=> 'root',
+    'database.password'=> '',
+    'database.name'=> 'framework_php',
     'views.path' => dirname(__DIR__) . '/views',
     'twig.extensions' => [
         get(RouterTwigExtension::class)
