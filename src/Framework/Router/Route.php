@@ -7,16 +7,16 @@ use Closure;
 class Route
 {
     private string $name;
-    private Closure $callback;
+    private Closure|string $callback;
     private array $parameters;
 
     public function __construct(
         string $name,
-        callable $callback,
+        callable|string $callback,
         array $parameters
     ) {
         $this->name = $name;
-        $this->callback = Closure::fromCallable($callback);
+        $this->callback = $callback;
         $this->parameters = $parameters;
     }
 
@@ -29,9 +29,9 @@ class Route
     }
 
     /**
-     * @return callable
+     * @return callable|string
      */
-    public function getCallback(): callable
+    public function getCallback(): callable|string
     {
         return $this->callback;
     }

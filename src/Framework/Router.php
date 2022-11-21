@@ -26,7 +26,7 @@ class Router
      * @param callable $callable
      * @param string $name
      */
-    public function get(string $path, callable $callable, string $name)
+    public function get(string $path, callable|string $callable, string $name)
     {
         $this->router->map('GET', $path, $callable, $name);
     }
