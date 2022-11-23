@@ -3,6 +3,7 @@
 namespace Tests\App\Blog\Actions;
 
 use App\Blog\Actions\BlogAction;
+use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
@@ -77,9 +78,9 @@ class BlogActionTest extends TestCase
         $this->assertEquals(true, true);
     }
 
-    private function makePost(int $id, string $slug): stdClass
+    private function makePost(int $id, string $slug): Post
     {
-        $post = new stdClass();
+        $post = new Post();
         $post->id = $id;
         $post->slug = $slug;
         return $post;

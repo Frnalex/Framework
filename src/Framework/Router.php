@@ -14,11 +14,11 @@ class Router
     /**
      * @var AltoRouter
      */
-    private $router;
+    private $altoRouter;
 
     public function __construct()
     {
-        $this->router = new AltoRouter();
+        $this->altoRouter = new AltoRouter();
     }
 
     /**
@@ -28,7 +28,7 @@ class Router
      */
     public function get(string $path, callable|string $callable, string $name)
     {
-        $this->router->map('GET', $path, $callable, $name);
+        $this->altoRouter->map('GET', $path, $callable, $name);
     }
 
     /**
@@ -38,7 +38,7 @@ class Router
      */
     public function match(RequestInterface $request): ?Route
     {
-        $result = $this->router->match($request->getUri()->getPath());
+        $result = $this->altoRouter->match($request->getUri()->getPath());
 
         if ($result) {
             return new Route($result['name'], $result['target'], $result['params']);
@@ -47,8 +47,12 @@ class Router
         return null;
     }
 
-    public function generateUri(string $name, array $params): ?string
+    public function generateUri(string $name, array $params = [], array $queryParams = []): ?string
     {
-        return $this->router->generate($name, $params);
+        $uri = $this->altoRouter->generate($name, $params);
+        if ($queryParams) {
+            return $uri . '?' . http_build_query($queryParams);
+        }
+        return $uri;
     }
 }
