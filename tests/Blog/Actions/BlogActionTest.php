@@ -54,7 +54,7 @@ class BlogActionTest extends TestCase
         /** @var ResponseInterface */
         $response = call_user_func_array($this->blogAction, [$request]);
         $this->assertEquals(301, $response->getStatusCode());
-        $this->assertEquals(["/demo2"], $response->getHeader('location'));
+        $this->assertEquals(["/demo2"], $response->getHeader('Location'));
     }
 
     public function testShowRender()
