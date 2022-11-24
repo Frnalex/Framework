@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\AdminModule;
 use App\Blog\BlogModule;
 use DI\ContainerBuilder;
 use Framework\App;
@@ -10,7 +11,8 @@ use function Http\Response\send;
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $modules = [
-    BlogModule::class
+    AdminModule::class,
+    BlogModule::class,
 ];
 
 $builder = new ContainerBuilder();

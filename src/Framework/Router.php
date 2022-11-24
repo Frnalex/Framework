@@ -24,11 +24,49 @@ class Router
     /**
      * @param string $path
      * @param callable $callable
-     * @param string $name
+     * @param string|null $name
      */
-    public function get(string $path, callable|string $callable, string $name)
+    public function get(string $path, callable|string $callable, ?string $name = '')
     {
         $this->altoRouter->map('GET', $path, $callable, $name);
+    }
+
+    /**
+     * @param string $path
+     * @param callable $callable
+     * @param string|null $name
+     */
+    public function post(string $path, callable|string $callable, ?string $name = '')
+    {
+        $this->altoRouter->map('POST', $path, $callable, $name);
+    }
+
+    /**
+     * @param string $path
+     * @param callable $callable
+     * @param string|null $name
+     */
+    public function delete(string $path, callable|string $callable, ?string $name = '')
+    {
+        $this->altoRouter->map('DELETE', $path, $callable, $name);
+    }
+
+    /**
+     * Génère les routes du CRUD
+     * @param string $prefixPath
+     * @param mixed $callable
+     * @param string $prefixName
+     *
+     * @return void
+     */
+    public function crud(string $prefixPath, $callable, string $prefixName): void
+    {
+        $this->get("{$prefixPath}", $callable, "{$prefixName}.index");
+        $this->get("{$prefixPath}/new", $callable, "{$prefixName}.create");
+        $this->post("{$prefixPath}/new", $callable);
+        $this->get("{$prefixPath}/[i:id]", $callable, "{$prefixName}.edit");
+        $this->post("{$prefixPath}/[i:id]", $callable);
+        $this->delete("{$prefixPath}/[i:id]", $callable, "{$prefixName}.delete");
     }
 
     /**
