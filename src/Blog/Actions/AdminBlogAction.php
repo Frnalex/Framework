@@ -6,7 +6,7 @@ use App\Blog\Table\PostTable;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
-use GuzzleHttp\Psr7\Request;
+use Framework\Session\FlashService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -17,7 +17,8 @@ class AdminBlogAction
     public function __construct(
         private RendererInterface $renderer,
         private Router $router,
-        private PostTable $postTable
+        private PostTable $postTable,
+        private FlashService $flash,
     ) {
     }
 
@@ -40,7 +41,9 @@ class AdminBlogAction
     {
         $params = $request->getQueryParams();
         $posts = $this->postTable->findPaginated(12, $params['page'] ?? 1);
-        return  $this->renderer->render('@blog/admin/index', ['items' => $posts]);
+        return  $this->renderer->render('@blog/admin/index', [
+            'items' => $posts,
+        ]);
     }
 
     /**
@@ -58,6 +61,7 @@ class AdminBlogAction
                 ...$params,
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);
+            $this->flash->success("L'article a bien été modifié");
             return $this->redirect("blog.admin.index");
         }
 
@@ -78,6 +82,7 @@ class AdminBlogAction
                 'updated_at' => date('Y-m-d H:i:s'),
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
+            $this->flash->success("L'article a bien été créé");
             return $this->redirect("blog.admin.index");
         }
         return $this->renderer->render('@blog/admin/create');
