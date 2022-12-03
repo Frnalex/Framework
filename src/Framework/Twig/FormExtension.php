@@ -37,19 +37,21 @@ class FormExtension extends AbstractExtension
         $class = 'mb-3';
         $value = $this->convertValue($value);
         $attributes = [
-            'class' => trim('form-control ' . ($options['class'] ?? '')),
+            'class' => trim(($options['class'] ?? '')),
             "name" => $key,
             "id" => $key,
         ];
 
         if ($error) {
             $class .= " has-danger";
-            $attributes['class'] .= ' is-invalid';
+            $attributes['class'] = trim($attributes['class'] . ' is-invalid');
         }
 
 
         if ($type === 'textarea') {
             $input = $this->textarea($value, $attributes);
+        } elseif (array_key_exists('options', $options)) {
+            $input = $this->select($value, $options['options'], $attributes);
         } else {
             $input = $this->input($value, $attributes);
         }
@@ -113,19 +115,41 @@ class FormExtension extends AbstractExtension
     }
 
     /**
+     * Génère un <select>
+     * @param string|null $value
+     * @param array $options
+     * @param array $attributes
+     *
+     * @return string
+     */
+    private function select(?string $value, array $options, array $attributes): string
+    {
+        $htmlOptions = array_reduce(
+            array_keys($options),
+            function (string $html, string $key) use ($options, $value) {
+                $params = ['value' => $key, 'selected' => $key === $value];
+                return $html . "<option {$this->getHtmlFromArray($params)}>{$options[$key]}</option>";
+            },
+            ''
+        );
+        return "<select " . $this->getHtmlFromArray($attributes) . ">{$htmlOptions}</select>";
+    }
+
+    /**
      * Transforme un tableau $clef => $valeur en attributs HTML
      * @param array $attributes
      * @return string
      */
     private function getHtmlFromArray(array $attributes): string
     {
-        return implode(
-            ' ',
-            array_map(
-                fn ($key, $value) => "{$key}=\"{$value}\"",
-                array_keys($attributes),
-                $attributes
-            )
-        );
+        $htmlParts = [];
+        foreach ($attributes as $key => $value) {
+            if ($value === true) {
+                $htmlParts[] = (string)$key;
+            } elseif ($value !== false && $value !== "") {
+                $htmlParts[] = "{$key}=\"{$value}\"";
+            }
+        }
+        return implode(' ', $htmlParts);
     }
 }

@@ -1,0 +1,5 @@
+{{ field('name', item.name, "Titre de l'article", {class: 'form-control'}) }}
+{{ field('category_id', item.category_id, "Catégorie", {options: categories, class: 'form-select'}) }}
+{{ field('slug', item.slug, "Lien", {class: 'form-control'}) }}
+{{ field('content', item.content, "Contenu", {type: 'textarea', class: 'form-control'}) }}
+{{ field('created_at', item.created_at, "Date de création", {class: 'form-control datepicker'}) }}

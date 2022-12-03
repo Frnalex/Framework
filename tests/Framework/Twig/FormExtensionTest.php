@@ -20,7 +20,7 @@ class FormExtensionTest extends TestCase
         $this->assertSimilar('
             <div class="mb-3">
                 <label class="form-label" for="name">Titre test</label>
-                <input type="text" class="form-control" name="name" id="name" value="test">
+                <input type="text" name="name" id="name" value="test">
             </div>
         ', $html);
     }
@@ -37,7 +37,7 @@ class FormExtensionTest extends TestCase
         $this->assertSimilar('
             <div class="mb-3">
                 <label class="form-label" for="name">Titre test</label>
-                <input type="text" class="form-control test" name="name" id="name" value="test">
+                <input type="text" class="test" name="name" id="name" value="test">
             </div>
         ', $html);
     }
@@ -48,7 +48,7 @@ class FormExtensionTest extends TestCase
         $this->assertSimilar('
             <div class="mb-3">
                 <label class="form-label" for="name">Titre test</label>
-                <textarea class="form-control" name="name" id="name">test</textarea>
+                <textarea name="name" id="name">test</textarea>
             </div>
         ', $html);
     }
@@ -60,8 +60,32 @@ class FormExtensionTest extends TestCase
         $this->assertSimilar('
             <div class="mb-3 has-danger">
                 <label class="form-label" for="name">Titre test</label>
-                <input type="text" class="form-control is-invalid" name="name" id="name" value="test">
+                <input type="text" class="is-invalid" name="name" id="name" value="test">
                 <div class="invalid-feedback">erreur</div>
+            </div>
+        ', $html);
+    }
+
+    public function testSelect()
+    {
+        $html = $this->formExtension->field(
+            [],
+            'name',
+            2,
+            'Label',
+            [
+                'options' => [1 => 'Test', 2 => 'Test2'],
+                "class" => "form-select"
+            ]
+        );
+
+        $this->assertSimilar('
+            <div class="mb-3">
+                <label class="form-label" for="name">Label</label>
+                <select class="form-select" name="name" id="name">
+                    <option value="1">Test</option>
+                    <option value="2" selected>Test2</option>
+                </select>
             </div>
         ', $html);
     }
