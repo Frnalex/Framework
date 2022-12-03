@@ -61,10 +61,7 @@ class AdminBlogAction
             $validator = $this->getValidator($request);
 
             if ($validator->isValid()) {
-                $this->postTable->update($item->id, [
-                    ...$params,
-                    'updated_at' => date('Y-m-d H:i:s'),
-                ]);
+                $this->postTable->update($item->id, $params);
                 $this->flash->success("L'article a bien été modifié");
                 return $this->redirect("blog.admin.index");
             }
@@ -91,11 +88,7 @@ class AdminBlogAction
             $validator = $this->getValidator($request);
 
             if ($validator->isValid()) {
-                $this->postTable->insert([
-                    ...$params,
-                    'updated_at' => date('Y-m-d H:i:s'),
-                    'created_at' => date('Y-m-d H:i:s'),
-                ]);
+                $this->postTable->insert($params);
                 $this->flash->success("L'article a bien été créé");
                 return $this->redirect("blog.admin.index");
             }
@@ -118,11 +111,16 @@ class AdminBlogAction
 
     private function getParams(ServerRequestInterface $request): array
     {
-        return array_filter(
+        $params = array_filter(
             $request->getParsedBody(),
-            fn ($key) => in_array($key, ['name', 'slug', 'content']),
+            fn ($key) => in_array($key, ['name', 'slug', 'content', 'created_at']),
             ARRAY_FILTER_USE_KEY
         );
+
+        return [
+         ...$params,
+         'updated_at' => date('Y-m-d H:i:s')
+        ];
     }
 
     private function getValidator(ServerRequestInterface $request)
