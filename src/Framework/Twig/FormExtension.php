@@ -63,12 +63,12 @@ class FormExtension extends AbstractExtension
         ";
     }
 
-    private function convertValue(DateTime|string $value): string
+    private function convertValue(mixed $value): string
     {
         if ($value instanceof DateTime) {
             return $value->format('Y-m-d H:i:s');
         }
-        return $value;
+        return (string)$value;
     }
 
     /**

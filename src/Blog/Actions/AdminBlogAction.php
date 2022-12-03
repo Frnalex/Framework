@@ -2,7 +2,9 @@
 
 namespace App\Blog\Actions;
 
+use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
+use DateTime;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
@@ -96,9 +98,13 @@ class AdminBlogAction
             $errors = $validator->getErrors();
             $item = $params;
         }
+
+        $item = new Post();
+        $item->created_at = new DateTime();
+
         return $this->renderer->render('@blog/admin/create', [
-            "item" => $item,
-            "errors" => $errors
+            "item" => $item ?? [],
+            "errors" => $errors ?? []
         ]);
     }
 
@@ -126,10 +132,11 @@ class AdminBlogAction
     private function getValidator(ServerRequestInterface $request)
     {
         return (new Validator($request->getParsedBody()))
-            ->required('name', 'content', 'slug')
+            ->required('name', 'content', 'slug', 'created_at')
             ->length('content', 10)
             ->length('name', 2, 250)
             ->length('slug', 2, 50)
+            ->dateTime('created_at')
             ->slug('slug')
         ;
     }
