@@ -32,7 +32,7 @@ class PostShowActionTest extends TestCase
         );
     }
 
-    public function testShowRedirect()
+    public function testShowRedirect(): void
     {
         $post = $this->makePost(9, 'test-slug');
         $request = (new ServerRequest('GET', '/'))
@@ -53,7 +53,7 @@ class PostShowActionTest extends TestCase
         $this->assertEquals(["/demo2"], $response->getHeader('Location'));
     }
 
-    public function testShowRender()
+    public function testShowRender(): void
     {
         $post = $this->makePost(9, 'test-slug');
         $request = (new ServerRequest('GET', '/'))
