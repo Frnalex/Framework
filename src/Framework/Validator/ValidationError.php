@@ -13,6 +13,7 @@ class ValidationError
         'betweenLength' => "Le champ %s doit contenir entre %d et %d caractères",
         'datetime' => "Le champ %s doit être une date valide (%s)",
         'exists' => "Le champ %s n'existe pas dans la table %s",
+        'unique' => "Le champ %s existe déjà",
     ];
 
     public function __construct(

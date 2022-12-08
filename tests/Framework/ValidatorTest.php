@@ -113,4 +113,20 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertTrue($this->makeValidator(['category' => 1])->exists('category', 'test', $pdo)->isValid());
         $this->assertFalse($this->makeValidator(['category' => 9999])->exists('category', 'test', $pdo)->isValid());
     }
+
+    public function testUnique()
+    {
+        $pdo = $this->getPDO();
+        $pdo->exec('CREATE TABLE test(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name VARCHAR(255)   
+        )');
+        $pdo->exec('INSERT INTO test (name) VALUES ("value 1")');
+        $pdo->exec('INSERT INTO test (name) VALUES ("value 2")');
+
+        $this->assertFalse($this->makeValidator(['name' => 'value 1'])->unique('name', 'test', $pdo)->isValid());
+        $this->assertTrue($this->makeValidator(['name' => 'value unique'])->unique('name', 'test', $pdo)->isValid());
+        $this->assertTrue($this->makeValidator(['name' => 'value 1'])->unique('name', 'test', $pdo, 1)->isValid());
+        $this->assertFalse($this->makeValidator(['name' => 'value 2'])->unique('name', 'test', $pdo, 1)->isValid());
+    }
 }

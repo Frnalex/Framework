@@ -28,8 +28,11 @@ class TextExtension extends AbstractExtension
      *
      * @return string
      */
-    public function excerpt(string $content, int $maxLength = 100): string
+    public function excerpt(?string $content, int $maxLength = 100): string
     {
+        if (is_null($content)) {
+            return '';
+        }
         if (mb_strlen($content) < $maxLength) {
             return $content;
         };

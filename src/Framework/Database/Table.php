@@ -4,7 +4,6 @@ namespace Framework\Database;
 
 use Pagerfanta\Pagerfanta;
 use PDO;
-use PHPUnit\Framework\Constraint\ArrayHasKey;
 
 class Table
 {
@@ -17,7 +16,7 @@ class Table
     protected ?string $entity = null;
 
     public function __construct(
-        private PDO $pdo
+        protected PDO $pdo
     ) {
     }
 
@@ -67,18 +66,44 @@ class Table
     }
 
     /**
+     * Récupère tous les enregistrements
+     * @return array
+     */
+    public function findAll(): array
+    {
+        $query = $this->pdo->query("SELECT * FROM {$this->table}");
+
+        if ($this->entity) {
+            $query->setFetchMode(PDO::FETCH_CLASS, $this->entity);
+        } else {
+            $query->setFetchMode(PDO::FETCH_OBJ);
+        }
+
+        return $query->fetchAll();
+    }
+
+    /**
+     * Récupère une ligne par rapport à une valeur
+     * @param string $field
+     * @param string $value
+     *
+     * @return mixed
+     * @throws NoRecordException
+     */
+    public function findBy(string $field, string $value): mixed
+    {
+        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE $field = :value", ['value' => $value]);
+    }
+
+    /**
      * Récupère un élément à partir de son id
      * @param int $id
      * @return mixed
+     * @throws NoRecordException
      */
     public function find(int $id): mixed
     {
-        $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = ?");
-        $query->execute([$id]);
-        if ($this->entity) {
-            $query->setFetchMode(PDO::FETCH_CLASS, $this->entity);
-        }
-        return $query->fetch() ?: null;
+        return $this->fetchOrFail("SELECT * FROM {$this->table} WHERE id = :id", ['id' => $id]);
     }
 
     /**
@@ -90,8 +115,8 @@ class Table
     public function update(int $id, array $params): bool
     {
         $fieldQuery = $this->buildFieldQuery($params);
-        $statement = $this->pdo->prepare("UPDATE {$this->table} SET {$fieldQuery} WHERE id = :id");
-        return $statement->execute([...$params, 'id' => $id]);
+        $query = $this->pdo->prepare("UPDATE {$this->table} SET {$fieldQuery} WHERE id = :id");
+        return $query->execute([...$params, 'id' => $id]);
     }
 
     /**
@@ -104,8 +129,8 @@ class Table
         $fields = join(', ', array_keys($params));
         $values = join(', ', array_map(fn ($field) => ":{$field}", array_keys($params)));
 
-        $statement = $this->pdo->prepare("INSERT INTO {$this->table} ({$fields}) VALUES ({$values})");
-        return $statement->execute($params);
+        $query = $this->pdo->prepare("INSERT INTO {$this->table} ({$fields}) VALUES ({$values})");
+        return $query->execute($params);
     }
 
     /**
@@ -115,8 +140,8 @@ class Table
      */
     public function delete(int $id): bool
     {
-        $statement = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
-        return $statement->execute(['id' => $id]);
+        $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
+        return $query->execute(['id' => $id]);
     }
 
     private function buildFieldQuery(array $params)
@@ -141,13 +166,38 @@ class Table
      */
     public function exists(string $id): bool
     {
-        $statement = $this->pdo->prepare("SELECT id FROM {$this->table} WHERE id = :id");
-        $statement->execute(['id' => $id]);
-        return $statement->fetchColumn() !== false;
+        $query = $this->pdo->prepare("SELECT id FROM {$this->table} WHERE id = :id");
+        $query->execute(['id' => $id]);
+        return $query->fetchColumn() !== false;
     }
 
     public function getPdo(): PDO
     {
         return $this->pdo;
+    }
+
+    /**
+     * Permet d'exécuter une requête et de récupérer le premier résultat
+     * @param string $query
+     * @param array $params
+     *
+     * @return mixed
+     * @throws NoRecordException
+     */
+    protected function fetchOrFail(string $query, array $params = []): mixed
+    {
+        $query = $this->pdo->prepare($query);
+        $query->execute($params);
+        if ($this->entity) {
+            $query->setFetchMode(PDO::FETCH_CLASS, $this->entity);
+        }
+
+        $record = $query->fetch();
+
+        if ($record === false) {
+            throw new NoRecordException();
+        }
+
+        return $record;
     }
 }
