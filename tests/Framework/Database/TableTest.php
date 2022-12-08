@@ -83,4 +83,13 @@ class TableTest extends TestCase
         $this->assertTrue($this->table->exists(2));
         $this->assertFalse($this->table->exists(9999));
     }
+
+    public function testCount()
+    {
+        $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 1")');
+        $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 2")');
+        $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 3")');
+
+        $this->assertEquals(3, $this->table->count());
+    }
 }
