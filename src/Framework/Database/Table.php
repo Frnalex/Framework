@@ -153,7 +153,7 @@ class Table
         return $query->execute(['id' => $id]);
     }
 
-    private function buildFieldQuery(array $params)
+    private function buildFieldQuery(array $params): string
     {
         return join(', ', array_map(fn ($field) => "{$field} = :{$field}", array_keys($params)));
     }
@@ -170,10 +170,10 @@ class Table
 
     /**
      * Vérifie qu'un enregistrement existe
-     * @param string $id
+     * @param int $id
      * @return bool
      */
-    public function exists(string $id): bool
+    public function exists(int $id): bool
     {
         $query = $this->pdo->prepare("SELECT id FROM {$this->table} WHERE id = :id");
         $query->execute(['id' => $id]);

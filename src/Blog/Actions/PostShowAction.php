@@ -6,6 +6,7 @@ use App\Blog\Table\PostTable;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class PostShowAction
@@ -20,7 +21,7 @@ class PostShowAction
     }
 
 
-    public function __invoke(ServerRequestInterface $request)
+    public function __invoke(ServerRequestInterface $request): string|ResponseInterface
     {
         $slug = $request->getAttribute('slug');
         $post = $this->postTable->findWithCategory($request->getAttribute('id'));

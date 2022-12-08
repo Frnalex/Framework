@@ -16,7 +16,7 @@ class DashboardAction
     ) {
     }
 
-    public function __invoke()
+    public function __invoke(): string
     {
         $widgets = array_reduce(
             $this->widgets,

@@ -6,13 +6,13 @@ use DateTime;
 
 class Post
 {
-    public $id;
-    public $name;
-    public $slug;
-    public $content;
-    public $created_at;
-    public $updated_at;
-    public $category_name;
+    public int $id;
+    public string $name;
+    public string $slug;
+    public ?string $content;
+    public string|DateTime|null $created_at = '';
+    public string|DateTime|null $updated_at = '';
+    public string $category_name;
 
     public function __construct()
     {

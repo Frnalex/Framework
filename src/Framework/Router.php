@@ -23,20 +23,20 @@ class Router
 
     /**
      * @param string $path
-     * @param callable $callable
+     * @param callable|string $callable
      * @param string|null $name
      */
-    public function get(string $path, callable|string $callable, ?string $name = '')
+    public function get(string $path, callable|string $callable, ?string $name = ''): void
     {
         $this->altoRouter->map('GET', $path, $callable, $name);
     }
 
     /**
      * @param string $path
-     * @param callable $callable
+     * @param callable|string $callable
      * @param string|null $name
      */
-    public function post(string $path, callable|string $callable, ?string $name = '')
+    public function post(string $path, callable|string $callable, ?string $name = ''): void
     {
         $this->altoRouter->map('POST', $path, $callable, $name);
     }
@@ -46,7 +46,7 @@ class Router
      * @param callable $callable
      * @param string|null $name
      */
-    public function delete(string $path, callable|string $callable, ?string $name = '')
+    public function delete(string $path, callable|string $callable, ?string $name = ''): void
     {
         $this->altoRouter->map('DELETE', $path, $callable, $name);
     }

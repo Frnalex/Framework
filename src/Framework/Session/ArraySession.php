@@ -4,7 +4,7 @@ namespace Framework\Session;
 
 class ArraySession implements SessionInterface
 {
-    private $session = [];
+    private array $session = [];
 
     public function get(string $key, mixed $default = null): mixed
     {

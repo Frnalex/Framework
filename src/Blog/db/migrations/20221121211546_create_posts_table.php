@@ -7,7 +7,7 @@ use Phinx\Migration\AbstractMigration;
 
 final class CreatePostsTable extends AbstractMigration
 {
-    public function change()
+    public function change(): void
     {
         $this->table('posts')
             ->addColumn('name', 'string')

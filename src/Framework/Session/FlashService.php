@@ -4,9 +4,9 @@ namespace Framework\Session;
 
 class FlashService
 {
-    private $sessionKey = 'flash';
+    private string $sessionKey = 'flash';
 
-    private $messages = null;
+    private ?array $messages = null;
 
     public function __construct(
         private SessionInterface $session

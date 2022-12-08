@@ -62,7 +62,7 @@ class PHPRenderer implements RendererInterface
         extract($this->globals);
         extract($params);
         require($path);
-        return ob_get_clean();
+        return ob_get_clean() ?: '';
     }
 
     /**

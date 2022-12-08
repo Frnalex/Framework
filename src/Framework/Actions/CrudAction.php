@@ -16,7 +16,7 @@ class CrudAction
 
     protected string $viewPath;
     protected string $routePrefix;
-    protected $messages = [
+    protected array $messages = [
         "create" => "L'élément a bien été créé",
         "edit" => "L'élément a bien été modifié",
     ];
@@ -30,7 +30,7 @@ class CrudAction
     }
 
 
-    public function __invoke(ServerRequestInterface $request)
+    public function __invoke(ServerRequestInterface $request): string|ResponseInterface
     {
         $this->renderer->addGlobal('viewPath', $this->viewPath);
         $this->renderer->addGlobal('routePrefix', $this->routePrefix);

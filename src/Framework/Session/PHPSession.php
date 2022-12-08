@@ -7,7 +7,7 @@ class PHPSession implements SessionInterface
     /**
      * Assure que le Session est démarrée
      */
-    private function ensureStarted()
+    private function ensureStarted(): void
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();

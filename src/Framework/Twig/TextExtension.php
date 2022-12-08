@@ -39,6 +39,6 @@ class TextExtension extends AbstractExtension
 
         $excertp = mb_substr($content, 0, $maxLength);
         $lastSpacePosition = mb_strrpos($excertp, ' ');
-        return $excertp = mb_substr($excertp, 0, $lastSpacePosition) . '...';
+        return $excertp = mb_substr($excertp, 0, (int) $lastSpacePosition) . '...';
     }
 }
