@@ -10,17 +10,6 @@ use Psr\Http\Message\ServerRequestInterface;
 class App
 {
     /**
-     * Liste des modules
-     * @var array
-     */
-    private $modules = [];
-
-    /**
-     * @var Router
-     */
-    private $router;
-
-    /**
      * Container d'injection de dépendances
      * @var ContainerInterface
      */
@@ -31,11 +20,13 @@ class App
      * @param ContainerInterface $container
      * @param array $modules
      */
-    public function __construct(ContainerInterface $container, array $modules = [])
-    {
+    public function __construct(
+        ContainerInterface $container,
+        array $modules = []
+    ) {
         $this->container = $container;
         foreach ($modules as $module) {
-            $this->modules[] = $container->get($module);
+            $modules[] = $container->get($module);
         }
     }
 

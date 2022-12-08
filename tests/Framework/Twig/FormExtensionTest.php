@@ -14,7 +14,7 @@ class FormExtensionTest extends TestCase
         $this->formExtension = new FormExtension();
     }
 
-    public function testField()
+    public function testField(): void
     {
         $html = $this->formExtension->field([], 'name', 'test', 'Titre test');
         $this->assertSimilar('
@@ -25,7 +25,7 @@ class FormExtensionTest extends TestCase
         ', $html);
     }
 
-    public function testFieldWithClass()
+    public function testFieldWithClass(): void
     {
         $html = $this->formExtension->field(
             [],
@@ -42,7 +42,7 @@ class FormExtensionTest extends TestCase
         ', $html);
     }
 
-    public function testTextarea()
+    public function testTextarea(): void
     {
         $html = $this->formExtension->field([], 'name', 'test', 'Titre test', ['type' => 'textarea']);
         $this->assertSimilar('
@@ -53,7 +53,7 @@ class FormExtensionTest extends TestCase
         ', $html);
     }
 
-    public function testFieldWithErrors()
+    public function testFieldWithErrors(): void
     {
         $context = ["errors" => ['name' => 'erreur']];
         $html = $this->formExtension->field($context, 'name', 'test', 'Titre test');
@@ -66,7 +66,7 @@ class FormExtensionTest extends TestCase
         ', $html);
     }
 
-    public function testSelect()
+    public function testSelect(): void
     {
         $html = $this->formExtension->field(
             [],
@@ -97,7 +97,7 @@ class FormExtensionTest extends TestCase
         return implode('', $lines);
     }
 
-    private function assertSimilar(string $expected, string $actual)
+    private function assertSimilar(string $expected, string $actual): void
     {
         $this->assertEquals($this->trim($expected), $this->trim($actual));
     }

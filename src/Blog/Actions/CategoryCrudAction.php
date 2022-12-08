@@ -16,10 +16,10 @@ class CategoryCrudAction extends CrudAction
     protected string $routePrefix = "blog.category.admin";
 
     public function __construct(
-        private RendererInterface $renderer,
-        private Router $router,
+        RendererInterface $renderer,
+        Router $router,
         private CategoryTable $table,
-        private FlashService $flash,
+        FlashService $flash,
     ) {
         parent::__construct($renderer, $router, $table, $flash);
     }

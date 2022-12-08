@@ -17,7 +17,7 @@ class FlashServiceTest extends TestCase
         $this->flashService = new FlashService($this->session);
     }
 
-    public function testDeleteFlashAfterGettingIt()
+    public function testDeleteFlashAfterGettingIt(): void
     {
         $this->flashService->success('Success message');
         $this->assertEquals('Success message', $this->flashService->get('success'));

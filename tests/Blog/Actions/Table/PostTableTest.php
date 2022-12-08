@@ -18,21 +18,21 @@ class PostTableTest extends DatabaseTestCase
         $this->postTable = new PostTable($pdo);
     }
 
-    public function testFind()
+    public function testFind(): void
     {
         $this->seedDatabase($this->postTable->getPdo());
         $post = $this->postTable->find(1);
         $this->assertInstanceOf(Post::class, $post);
     }
 
-    public function testFindNotFoundRecord()
+    public function testFindNotFoundRecord(): void
     {
         $this->expectException(NoRecordException::class);
         $idNotExisting = 999999;
         $this->postTable->find($idNotExisting);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $this->seedDatabase($this->postTable->getPdo());
 
@@ -45,7 +45,7 @@ class PostTableTest extends DatabaseTestCase
         $this->assertEquals($editedSlug, $post->slug);
     }
 
-    public function testInsert()
+    public function testInsert(): void
     {
         $newTitle = 'New Title';
         $newSlug = 'new-title';
@@ -56,7 +56,7 @@ class PostTableTest extends DatabaseTestCase
         $this->assertEquals($newSlug, $post->slug);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $newTitle = 'New Title';
         $newSlug = 'new-title';

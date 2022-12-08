@@ -30,7 +30,7 @@ class TableTest extends TestCase
         $property->setValue($this->table, 'test');
     }
 
-    public function testFind()
+    public function testFind(): void
     {
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 1")');
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 2")');
@@ -40,7 +40,7 @@ class TableTest extends TestCase
         $this->assertEquals('value 1', $test->name);
     }
 
-    public function testFindList()
+    public function testFindList(): void
     {
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 1")');
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 2")');
@@ -51,7 +51,7 @@ class TableTest extends TestCase
         ], $this->table->findList());
     }
 
-    public function testFindAll()
+    public function testFindAll(): void
     {
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 1")');
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 2")');
@@ -63,7 +63,7 @@ class TableTest extends TestCase
         $this->assertEquals("value 2", $categories[1]->name);
     }
 
-    public function testFindBy()
+    public function testFindBy(): void
     {
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 1")');
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 2")');
@@ -74,7 +74,7 @@ class TableTest extends TestCase
         $this->assertEquals(1, $category->id);
     }
 
-    public function testExists()
+    public function testExists(): void
     {
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 1")');
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 2")');
@@ -84,7 +84,7 @@ class TableTest extends TestCase
         $this->assertFalse($this->table->exists(9999));
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 1")');
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 2")');

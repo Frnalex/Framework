@@ -4,14 +4,11 @@ namespace App\Blog\Actions;
 
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
-use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class PostIndexAction
 {
-    use RouterAwareAction;
-
     public function __construct(
         private RendererInterface $renderer,
         private PostTable $postTable,

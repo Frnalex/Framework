@@ -26,6 +26,7 @@
         "squizlabs/php_codesniffer": "^3.7",
         "symfony/var-dumper": "^6.1",
         "robmorgan/phinx": "^0.12.13",
-        "fakerphp/faker": "^1.20"
+        "fakerphp/faker": "^1.20",
+        "phpstan/phpstan": "^1.9"
     }
 }

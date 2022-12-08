@@ -15,7 +15,7 @@ class TimeExtensionTest extends TestCase
         $this->timeExtension = new TimeExtension();
     }
 
-    public function testDateFormat()
+    public function testDateFormat(): void
     {
         $date = new DateTime();
         $format = 'd/m/Y H:i';

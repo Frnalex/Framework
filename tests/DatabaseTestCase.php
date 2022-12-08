@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\NullOutput;
 
 class DatabaseTestCase extends TestCase
 {
-    public function getPDO()
+    public function getPDO(): PDO
     {
         return new PDO("sqlite::memory:", null, null, [
              PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -19,7 +19,7 @@ class DatabaseTestCase extends TestCase
          ]);
     }
 
-    public function getManager(PDO $pdo)
+    public function getManager(PDO $pdo): Manager
     {
         $configArray = require('phinx.php');
         $configArray['environments']['test'] = [
@@ -30,14 +30,14 @@ class DatabaseTestCase extends TestCase
         return new Manager($config, new StringInput(''), new NullOutput());
     }
 
-    public function migrateDatabase(PDO $pdo)
+    public function migrateDatabase(PDO $pdo): void
     {
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
         $this->getManager($pdo)->migrate('test');
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     }
 
-    public function seedDatabase(PDO $pdo)
+    public function seedDatabase(PDO $pdo): void
     {
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
         $this->getManager($pdo)->migrate('test');

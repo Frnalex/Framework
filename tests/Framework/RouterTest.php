@@ -18,7 +18,7 @@ class RouterTest extends TestCase
         $this->router = new Router();
     }
 
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         $request = new Request('GET', '/blog');
         $this->router->get(
@@ -34,7 +34,7 @@ class RouterTest extends TestCase
         $this->assertEquals('test', call_user_func_array($route->getCallback(), [$request]));
     }
 
-    public function testGetMethodIfUrlDoesNotExists()
+    public function testGetMethodIfUrlDoesNotExists(): void
     {
         $request = new Request('GET', '/blog');
         $this->router->get(
@@ -49,7 +49,7 @@ class RouterTest extends TestCase
         $this->assertEquals(null, $route);
     }
 
-    public function testGetMethodWithParameters()
+    public function testGetMethodWithParameters(): void
     {
         $request = new Request('GET', '/blog/mon-slug-8');
         $this->router->get('/blog', function () {
@@ -65,7 +65,7 @@ class RouterTest extends TestCase
         $this->assertEquals(['slug' => 'mon-slug', 'id' => '8'], $route->getParams());
     }
 
-    public function testGenerateUri()
+    public function testGenerateUri(): void
     {
         $this->router->get('/blog', function () {
             return 'azeaze';
@@ -79,7 +79,7 @@ class RouterTest extends TestCase
         $this->assertEquals('/blog/mon-article-18', $uri);
     }
 
-    public function testGenerateUriWithQueryParams()
+    public function testGenerateUriWithQueryParams(): void
     {
         $this->router->get('/blog', function () {
             return 'azeaze';

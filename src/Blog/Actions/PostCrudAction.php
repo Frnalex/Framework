@@ -19,10 +19,10 @@ class PostCrudAction extends CrudAction
     protected string $routePrefix = "blog.admin";
 
     public function __construct(
-        private RendererInterface $renderer,
-        private Router $router,
+        RendererInterface $renderer,
+        Router $router,
         private PostTable $table,
-        private FlashService $flash,
+        FlashService $flash,
         private CategoryTable $categoryTable
     ) {
         parent::__construct($renderer, $router, $table, $flash);

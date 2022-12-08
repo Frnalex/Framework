@@ -18,7 +18,7 @@ $modules = [
 $builder = new ContainerBuilder();
 $builder->addDefinitions(dirname(__DIR__) . '/config/config.php');
 foreach ($modules as $module) {
-    if ($module::DEFINITIONS) {
+    if ($module::DEFINITIONS !== null) {
         $builder->addDefinitions($module::DEFINITIONS);
     }
 }

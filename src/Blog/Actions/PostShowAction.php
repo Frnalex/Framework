@@ -2,12 +2,10 @@
 
 namespace App\Blog\Actions;
 
-use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class PostShowAction

@@ -1,1 +1,1 @@
-Hello <?php echo $param ?>
+Hello <?php echo $param ?? '' ?>

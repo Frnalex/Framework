@@ -2,22 +2,19 @@
 
 namespace Framework;
 
-use Framework\Database\Table;
 use Framework\Validator\ValidationError;
 use PDO;
 
 class Validator
 {
-    private array $params;
-
     /**
-     * @var string[]
+     * @var ValidationError[]
      */
     private array $errors = [];
 
-    public function __construct(array $params)
-    {
-        $this->params = $params;
+    public function __construct(
+        private array $params
+    ) {
     }
 
     /**
@@ -91,7 +88,7 @@ class Validator
     /**
      * Vérifie que la clef est une date valide
      * @param string $key
-     * @param mixed string
+     * @param string $format
      * @return self
      */
     public function dateTime(string $key, string $format = 'Y-m-d H:i:s'): self
@@ -132,7 +129,7 @@ class Validator
      * @param string $key
      * @param string $table
      * @param PDO $pdo
-     * @param int|null $excluse
+     * @param int|null $exclude
      *
      * @return self
      */

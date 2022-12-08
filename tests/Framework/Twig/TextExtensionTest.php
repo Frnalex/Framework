@@ -14,14 +14,14 @@ class TextExtensionTest extends TestCase
         $this->textExtension = new TextExtension();
     }
 
-    public function testExcerptWithShortText()
+    public function testExcerptWithShortText(): void
     {
         $text = 'Texte';
         $excerpt = $this->textExtension->excerpt($text, 10);
         $this->assertEquals($text, $excerpt);
     }
 
-    public function testExcerptWithLongText()
+    public function testExcerptWithLongText(): void
     {
         $text = 'Texte plus long que ce qui va être demandé';
         $this->assertEquals("Texte...", $this->textExtension->excerpt($text, 7));

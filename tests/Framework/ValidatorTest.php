@@ -7,12 +7,15 @@ use Tests\DatabaseTestCase;
 
 class ValidatorTest extends DatabaseTestCase
 {
-    private function makeValidator(array $params)
+    /**
+     * @param mixed[] $params
+     */
+    private function makeValidator(array $params): Validator
     {
         return new Validator($params);
     }
 
-    public function testRequiredIfFail()
+    public function testRequiredIfFail(): void
     {
         $validator = $this->makeValidator(['name' => 'test name']);
 
@@ -22,7 +25,7 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertEquals("Le champ content est requis", (string) $errors['content']);
     }
 
-    public function testNotEmpty()
+    public function testNotEmpty(): void
     {
         $validator = $this->makeValidator([
             'name' => 'test name',
@@ -34,7 +37,7 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(1, $errors);
     }
 
-    public function testRequiredIfSuccess()
+    public function testRequiredIfSuccess(): void
     {
         $validator = $this->makeValidator([
             'name' => 'test name',
@@ -46,7 +49,7 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(0, $errors);
     }
 
-    public function testSlugSuccess()
+    public function testSlugSuccess(): void
     {
         $validator = $this->makeValidator([
             'slug' => 'test-slug-test',
@@ -58,7 +61,7 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(0, $errors);
     }
 
-    public function testSlugError()
+    public function testSlugError(): void
     {
         $validator = $this->makeValidator([
             'slug' => 'teSt-Slug-MajusCule',
@@ -77,7 +80,7 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertEquals(['slug', 'slug2', 'slug3', "slug4"], array_keys($errors));
     }
 
-    public function testLength()
+    public function testLength(): void
     {
         $params = ['test' => '123456789' ];
 
@@ -91,7 +94,7 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(1, $errors);
     }
 
-    public function testDatetime()
+    public function testDatetime(): void
     {
         $this->assertCount(0, $this->makeValidator(['date' => '2012-12-12 11:12:13'])->datetime('date')->getErrors());
         $this->assertCount(0, $this->makeValidator(['date' => '2012-12-12 00:00:00'])->datetime('date')->getErrors());
@@ -100,7 +103,7 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(1, $this->makeValidator(['date' => '2013-02-29 11:12:13'])->datetime('date')->getErrors());
     }
 
-    public function testExists()
+    public function testExists(): void
     {
         $pdo = $this->getPDO();
         $pdo->exec('CREATE TABLE test(
@@ -114,7 +117,7 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertFalse($this->makeValidator(['category' => 9999])->exists('category', 'test', $pdo)->isValid());
     }
 
-    public function testUnique()
+    public function testUnique(): void
     {
         $pdo = $this->getPDO();
         $pdo->exec('CREATE TABLE test(

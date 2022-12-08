@@ -1,0 +1,9 @@
+parameters:
+    level: 4
+    phpVersion: 80100
+    editorUrl: 'vscode://file/%%file%%:%%line%%'
+    tmpDir: .tools/phpstan
+    paths:
+        - public
+        - src
+        - tests
