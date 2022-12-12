@@ -9,6 +9,7 @@ use Framework\Session\FlashService;
 use Framework\Validator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 
 class CrudAction
 {
@@ -125,8 +126,14 @@ class CrudAction
 
     protected function getParams(ServerRequestInterface $request): array
     {
+        $body = $request->getParsedBody();
+
+        if (!is_array($body)) {
+            throw new RuntimeException("body must be an array");
+        }
+
         return array_filter(
-            $request->getParsedBody(),
+            $body,
             fn ($key) => in_array($key, []),
             ARRAY_FILTER_USE_KEY
         );
@@ -139,7 +146,13 @@ class CrudAction
      */
     protected function getValidator(ServerRequestInterface $request): Validator
     {
-        return new Validator($request->getParsedBody());
+        $body = $request->getParsedBody();
+
+        if (!is_array($body)) {
+            throw new RuntimeException("body must be an array");
+        }
+
+        return new Validator($body);
     }
 
     /**

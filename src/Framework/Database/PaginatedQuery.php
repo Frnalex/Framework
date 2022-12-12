@@ -25,6 +25,7 @@ class PaginatedQuery implements AdapterInterface
 
     /**
      * Returns the number of results for the list.
+     * @return int
      */
     public function getNbResults(): int
     {

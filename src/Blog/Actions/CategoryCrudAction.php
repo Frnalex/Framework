@@ -9,6 +9,7 @@ use Framework\Router;
 use Framework\Session\FlashService;
 use Framework\Validator;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 
 class CategoryCrudAction extends CrudAction
 {
@@ -26,8 +27,14 @@ class CategoryCrudAction extends CrudAction
 
     protected function getParams(ServerRequestInterface $request): array
     {
+        $body = $request->getParsedBody();
+
+        if (!is_array($body)) {
+            throw new RuntimeException("body must be an array");
+        }
+
         return array_filter(
-            $request->getParsedBody(),
+            $body,
             fn ($key) => in_array($key, ['name', 'slug']),
             ARRAY_FILTER_USE_KEY
         );

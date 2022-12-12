@@ -16,10 +16,10 @@ class Post
 
     public function __construct()
     {
-        if ($this->created_at) {
+        if ($this->created_at && is_string($this->created_at)) {
             $this->created_at = new DateTime($this->created_at);
         }
-        if ($this->updated_at) {
+        if ($this->updated_at && is_string($this->updated_at)) {
             $this->updated_at = new DateTime($this->updated_at);
         }
     }

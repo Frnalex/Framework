@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 
 class App
 {
@@ -34,6 +35,10 @@ class App
     {
         $uri = $request->getUri()->getPath();
         $parsedBody = $request->getParsedBody();
+
+        if (!is_array($parsedBody)) {
+            throw new RuntimeException("parsedBody must be an array");
+        }
 
         if (array_key_exists('_method', $parsedBody) && in_array($parsedBody['_method'], ['DELETE', 'PUT'])) {
             $request = $request->withMethod($parsedBody['_method']);
