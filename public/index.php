@@ -2,6 +2,7 @@
 
 use App\Admin\AdminModule;
 use App\Blog\BlogModule;
+use Dotenv\Dotenv;
 use Framework\App;
 use Framework\Middleware\CsrfMiddleware;
 use Framework\Middleware\DispacherMiddleware;
@@ -14,14 +15,19 @@ use Middlewares\Whoops;
 
 use function Http\Response\send;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+chdir(dirname(__DIR__));
+
+require 'vendor/autoload.php';
+
+$dotenv = Dotenv::createImmutable(getcwd());
+$dotenv->load();
 
 $modules = [
     AdminModule::class,
     BlogModule::class,
 ];
 
-$app = (new App(dirname(__DIR__) . '/config/config.php'))
+$app = (new App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
     ->pipe(Whoops::class)
