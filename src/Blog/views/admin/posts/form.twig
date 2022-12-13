@@ -1,3 +1,5 @@
+{{ csrf_input() }}
+
 {{ field('name', item.name, "Titre de l'article", {class: 'form-control'}) }}
 {{ field('category_id', item.category_id, "Catégorie", {options: categories, class: 'form-select'}) }}
 {{ field('slug', item.slug, "Lien", {class: 'form-control'}) }}

@@ -3,6 +3,7 @@
 use App\Admin\AdminModule;
 use App\Blog\BlogModule;
 use Framework\App;
+use Framework\Middleware\CsrfMiddleware;
 use Framework\Middleware\DispacherMiddleware;
 use Framework\Middleware\MethodMiddleware;
 use Framework\Middleware\NotFoundMiddleware;
@@ -26,6 +27,7 @@ $app = (new App(dirname(__DIR__) . '/config/config.php'))
     ->pipe(Whoops::class)
     ->pipe(TrailingSlashMiddleware::class)
     ->pipe(MethodMiddleware::class)
+    ->pipe(CsrfMiddleware::class)
     ->pipe(RouterMiddleware::class)
     ->pipe(DispacherMiddleware::class)
     ->pipe(NotFoundMiddleware::class)
