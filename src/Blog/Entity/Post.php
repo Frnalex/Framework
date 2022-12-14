@@ -10,17 +10,21 @@ class Post
     public string $name;
     public string $slug;
     public ?string $content;
-    public string|DateTime|null $created_at = '';
-    public string|DateTime|null $updated_at = '';
+    public string|DateTime|null $createdAt = '';
+    public string|DateTime|null $updatedAt = '';
     public string $category_name;
 
-    public function __construct()
+    public function setCreatedAt(string|Datetime $datetime): void
     {
-        if ($this->created_at && is_string($this->created_at)) {
-            $this->created_at = new DateTime($this->created_at);
+        if (is_string($datetime)) {
+            $this->createdAt = new DateTime($datetime);
         }
-        if ($this->updated_at && is_string($this->updated_at)) {
-            $this->updated_at = new DateTime($this->updated_at);
+    }
+
+    public function setUpdatedAt(string|Datetime $datetime): void
+    {
+        if (is_string($datetime)) {
+            $this->updatedAt = new DateTime($datetime);
         }
     }
 }

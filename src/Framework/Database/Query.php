@@ -10,6 +10,7 @@ class Query
     private ?array $select = null;
     private array $from;
     private array $where = [];
+    private string $entity;
     private array $group;
     private array $order;
     private array $limit;
@@ -54,6 +55,21 @@ class Query
         $this->params = $params;
         return $this;
     }
+
+    public function into(string $entity): self
+    {
+        $this->entity = $entity;
+        return $this;
+    }
+
+    public function all(): QueryResult
+    {
+        return new QueryResult(
+            $this->execute()->fetchAll(PDO::FETCH_ASSOC),
+            $this->entity
+        );
+    }
+
 
     public function __toString()
     {

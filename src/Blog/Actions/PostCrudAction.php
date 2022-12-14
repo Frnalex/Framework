@@ -38,7 +38,7 @@ class PostCrudAction extends CrudAction
     protected function getNewEntity(): Post
     {
         $post = new Post();
-        $post->created_at = new DateTime();
+        $post->setCreatedAt(new DateTime());
         return $post;
     }
 
@@ -57,8 +57,8 @@ class PostCrudAction extends CrudAction
         );
 
         return [
-         ...$params,
-         'updated_at' => date('Y-m-d H:i:s')
+            ...$params,
+            'updated_at' => date('Y-m-d H:i:s')
         ];
     }
 
@@ -71,7 +71,6 @@ class PostCrudAction extends CrudAction
             ->length('slug', 2, 50)
             ->exists('category_id', $this->categoryTable->getTable(), $this->table->getPdo())
             ->dateTime('created_at')
-            ->slug('slug')
-        ;
+            ->slug('slug');
     }
 }
