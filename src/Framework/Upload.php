@@ -8,7 +8,7 @@ use Psr\Http\Message\UploadedFileInterface;
 class Upload
 {
     protected ?string $path = null;
-    protected array $formats;
+    protected array $formats = [];
 
     public function __construct(?string $path = null)
     {
@@ -17,8 +17,12 @@ class Upload
         }
     }
 
-    public function upload(UploadedFileInterface $file, ?string $oldFile = null): string
+    public function upload(UploadedFileInterface $file, ?string $oldFile = null): ?string
     {
+        if ($file->getError() !== UPLOAD_ERR_OK) {
+            return null;
+        }
+
         $this->delete($oldFile);
 
         $targetPath = $this->addCopySuffix($this->path . DIRECTORY_SEPARATOR . $file->getClientFilename());
@@ -65,7 +69,7 @@ class Upload
         return $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '_' . $suffix . '.' . $info['extension'];
     }
 
-    private function generateFormats(string $targetPath)
+    private function generateFormats(string $targetPath): void
     {
         foreach ($this->formats as $format => $size) {
             $manager = new ImageManager(["driver" => "gd"]);

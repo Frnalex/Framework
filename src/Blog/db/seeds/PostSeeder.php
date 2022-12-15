@@ -36,7 +36,8 @@ class PostSeeder extends AbstractSeed
                 'content' => $faker->text(3000),
                 'created_at' => $date,
                 'updated_at' => $date,
-                'category_id' => rand(1, 5)
+                'category_id' => rand(1, 5),
+                'published' => 1
             ];
         }
 

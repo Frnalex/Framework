@@ -2,6 +2,7 @@
 
 namespace Framework\Actions;
 
+use Framework\Database\Hydrator;
 use Framework\Database\Table;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
@@ -9,7 +10,6 @@ use Framework\Session\FlashService;
 use Framework\Validator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use RuntimeException;
 
 class CrudAction
 {
@@ -55,7 +55,7 @@ class CrudAction
     public function index(ServerRequestInterface $request): string
     {
         $params = $request->getQueryParams();
-        $items = $this->table->findPaginated(12, $params['page'] ?? 1);
+        $items = $this->table->findAll()->paginate(12, $params['page'] ?? 1);
         return  $this->renderer->render("{$this->viewPath}/index", [
             'items' => $items,
         ]);
@@ -80,7 +80,8 @@ class CrudAction
             }
 
             $errors = $validator->getErrors();
-            $item = ['id' => $item->id, ...$request->getParsedBody()];
+            Hydrator::hydrate($request->getParsedBody(), $item);
+            // $item = ['id' => $item->id, ...$request->getParsedBody()];
         }
 
         return $this->renderer->render("{$this->viewPath}/edit", $this->formParams([
@@ -106,7 +107,7 @@ class CrudAction
                 return $this->redirect("{$this->routePrefix}.index");
             }
 
-            $errors = $validator->getErrors();
+            Hydrator::hydrate($request->getParsedBody(), $item);
             $item = $request->getParsedBody();
         }
 

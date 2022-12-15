@@ -2,7 +2,6 @@
 
 namespace Tests\Framework\Database;
 
-use App\Blog\Entity\Post;
 use Framework\Database\Query;
 use Tests\DatabaseTestCase;
 
@@ -63,7 +62,7 @@ class QueryTest extends DatabaseTestCase
         $posts = (new Query($pdo))
             ->from('posts')
             ->into(FakeClass::class)
-            ->all();
+            ->fetchAll();
 
         $this->assertEquals('test', substr($posts[0]->getSlug(), -4));
     }
@@ -77,11 +76,34 @@ class QueryTest extends DatabaseTestCase
         $posts = (new Query($pdo))
             ->from('posts')
             ->into(FakeClass::class)
-            ->all();
+            ->fetchAll();
 
         $post = $posts[0];
         $post2 = $posts[0];
 
         $this->assertSame($post, $post2);
+    }
+
+    public function testJoinQuery()
+    {
+        $query = (new Query())
+            ->from('posts', 'p')
+            ->select('name')
+            ->join('categories as c', 'c.id = p.category_id')
+            ->join('categories as c2', 'c2.id = p.category_id', 'inner');
+
+        $this->assertEquals('SELECT name FROM posts as p LEFT JOIN categories as c ON c.id = p.category_id INNER JOIN categories as c2 ON c2.id = p.category_id', (string)$query);
+    }
+
+    public function testLimitOrder()
+    {
+        $query = (new Query())
+            ->from('posts', 'p')
+            ->select('name')
+            ->order('id DESC')
+            ->order('name ASC')
+            ->limit(10, 5);
+
+        $this->assertEquals('SELECT name FROM posts as p ORDER BY id DESC, name ASC LIMIT 5, 10', (string)$query);
     }
 }

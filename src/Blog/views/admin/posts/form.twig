@@ -1,7 +1,8 @@
 {{ csrf_input() }}
 
 {{ field('name', item.name, "Titre de l'article", {class: 'form-control'}) }}
-{{ field('category_id', item.category_id, "Catégorie", {options: categories, class: 'form-select'}) }}
+{{ field('category_id', item.categoryId, "Catégorie", {options: categories, class: 'form-select'}) }}
+{{ field('published', item.published, "En ligne ?", {type: 'checkbox'}) }}
 
 {% if item.image %}
 <img src="{{ item.thumb  }}" alt="" style="width: 100%;">
@@ -9,4 +10,4 @@
 {{ field('image', item.slug, "Image", {type: 'file', class: 'form-control'}) }}
 {{ field('slug', item.slug, "Lien", {class: 'form-control'}) }}
 {{ field('content', item.content, "Contenu", {type: 'textarea', class: 'form-control'}) }}
-{{ field('created_at', item.created_at, "Date de création", {class: 'form-control datepicker'}) }}
+{{ field('created_at', item.createdAt, "Date de création", {class: 'form-control datepicker'}) }}

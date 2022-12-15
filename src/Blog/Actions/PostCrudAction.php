@@ -14,7 +14,6 @@ use Framework\Session\FlashService;
 use Framework\Validator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use RuntimeException;
 
 class PostCrudAction extends CrudAction
 {
@@ -61,10 +60,17 @@ class PostCrudAction extends CrudAction
     protected function getParams(ServerRequestInterface $request, object $post): array
     {
         $params = [...$request->getParsedBody(), ...$request->getUploadedFiles()];
-        $params['image'] = $this->postUpload->upload($params['image'], $post->image);
+        $image = $this->postUpload->upload($params['image'], $post->image);
+
+        if ($image) {
+            $params['image'] = $image;
+        } else {
+            unset($params['image']);
+        }
+
         $params = array_filter(
             $params,
-            fn ($key) => in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id', 'image']),
+            fn ($key) => in_array($key, ['name', 'slug', 'content', 'created_at', 'category_id', 'image', 'published']),
             ARRAY_FILTER_USE_KEY
         );
 

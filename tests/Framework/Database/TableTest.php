@@ -55,7 +55,7 @@ class TableTest extends TestCase
     {
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 1")');
         $this->table->getPdo()->exec('INSERT INTO test (name) VALUES ("value 2")');
-        $categories = $this->table->findAll();
+        $categories = $this->table->findAll()->fetchAll();
 
         $this->assertCount(2, $categories);
         $this->assertInstanceOf(stdClass::class, $categories[0]);

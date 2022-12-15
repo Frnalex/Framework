@@ -13,27 +13,32 @@ class Post
     public string|DateTime|null $createdAt = '';
     public string|DateTime|null $updatedAt = '';
     public ?string $image;
-    // public string $category_name;
+    public string $category_name;
 
-    public function setCreatedAt(string|Datetime $datetime): void
+    public function setCreatedAt(string|Datetime|null $datetime): void
     {
         if (is_string($datetime)) {
             $this->createdAt = new DateTime($datetime);
         }
     }
 
-    public function setUpdatedAt(string|Datetime $datetime): void
+    public function setUpdatedAt(string|Datetime|null $datetime): void
     {
         if (is_string($datetime)) {
             $this->updatedAt = new DateTime($datetime);
         }
     }
 
-    public function getThumb()
+    public function getThumb(): string
     {
         ['filename' => $filename, 'extension' => $extension] = pathinfo($this->image);
         return DIRECTORY_SEPARATOR . 'uploads' .
             DIRECTORY_SEPARATOR . 'posts' .
             DIRECTORY_SEPARATOR . $filename . '_thumb.' . $extension;
+    }
+
+    public function getImageUrl()
+    {
+        return '/uploads/posts/' . $this->image;
     }
 }

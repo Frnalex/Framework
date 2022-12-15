@@ -4,9 +4,14 @@ namespace Framework\Database;
 
 class Hydrator
 {
-    public static function hydrate(array $array, string $object): object
+    public static function hydrate(array $array, mixed $object): object
     {
-        $instance = new $object();
+        if (is_string($object)) {
+            $instance = new $object();
+        } else {
+            $instance = $object;
+        }
+
         foreach ($array as $key => $value) {
             $method = self::getSetter($key);
             if (method_exists($instance, $method)) {
