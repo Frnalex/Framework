@@ -5,3 +5,4 @@ composer.lock
 .tools
 
 /tmp
+/public/uploads

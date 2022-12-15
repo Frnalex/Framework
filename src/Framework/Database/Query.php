@@ -11,9 +11,9 @@ class Query
     private array $from;
     private array $where = [];
     private string $entity;
-    private array $group;
-    private array $order;
-    private array $limit;
+    // private array $group;
+    // private array $order;
+    // private array $limit;
     private ?array $params = null;
 
 

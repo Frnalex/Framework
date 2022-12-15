@@ -12,7 +12,8 @@ class Post
     public ?string $content;
     public string|DateTime|null $createdAt = '';
     public string|DateTime|null $updatedAt = '';
-    public string $category_name;
+    public ?string $image;
+    // public string $category_name;
 
     public function setCreatedAt(string|Datetime $datetime): void
     {
@@ -26,5 +27,10 @@ class Post
         if (is_string($datetime)) {
             $this->updatedAt = new DateTime($datetime);
         }
+    }
+
+    public function getThumb()
+    {
+        return DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . $this->image;
     }
 }

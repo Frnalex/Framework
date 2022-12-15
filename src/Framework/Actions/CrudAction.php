@@ -71,17 +71,16 @@ class CrudAction
         $item = $this->table->find($request->getAttribute('id'));
 
         if ($request->getMethod() === 'POST') {
-            $params = $this->getParams($request);
             $validator = $this->getValidator($request);
 
             if ($validator->isValid()) {
-                $this->table->update($item->id, $params);
+                $this->table->update($item->id, $this->getParams($request, $item));
                 $this->flash->success($this->messages['edit']);
                 return $this->redirect("{$this->routePrefix}.index");
             }
+
             $errors = $validator->getErrors();
-            $params['id'] = $item->id;
-            $item = $params;
+            $item = ['id' => $item->id, ...$request->getParsedBody()];
         }
 
         return $this->renderer->render("{$this->viewPath}/edit", $this->formParams([
@@ -99,17 +98,16 @@ class CrudAction
     {
         $item = $this->getNewEntity();
         if ($request->getMethod() === 'POST') {
-            $params = $this->getParams($request);
             $validator = $this->getValidator($request);
 
             if ($validator->isValid()) {
-                $this->table->insert($params);
+                $this->table->insert($this->getParams($request, $item));
                 $this->flash->success($this->messages['create']);
                 return $this->redirect("{$this->routePrefix}.index");
             }
 
             $errors = $validator->getErrors();
-            $item = $params;
+            $item = $request->getParsedBody();
         }
 
         return $this->renderer->render("{$this->viewPath}/create", $this->formParams([
@@ -124,13 +122,9 @@ class CrudAction
         return $this->redirect("{$this->routePrefix}.index");
     }
 
-    protected function getParams(ServerRequestInterface $request): array
+    protected function getParams(ServerRequestInterface $request, object $item): array
     {
-        $body = $request->getParsedBody();
-
-        if (!is_array($body)) {
-            throw new RuntimeException("body must be an array");
-        }
+        $body = $request->getParsedBody() ?: [];
 
         return array_filter(
             $body,
@@ -146,13 +140,7 @@ class CrudAction
      */
     protected function getValidator(ServerRequestInterface $request): Validator
     {
-        $body = $request->getParsedBody();
-
-        if (!is_array($body)) {
-            throw new RuntimeException("body must be an array");
-        }
-
-        return new Validator($body);
+        return new Validator([...$request->getParsedBody(), ...$request->getUploadedFiles()]);
     }
 
     /**

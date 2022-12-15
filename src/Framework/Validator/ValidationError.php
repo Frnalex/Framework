@@ -14,6 +14,8 @@ class ValidationError
         'datetime' => "Le champ %s doit être une date valide (%s)",
         'exists' => "Le champ %s n'existe pas dans la table %s",
         'unique' => "Le champ %s existe déjà",
+        'filetype' => "Le champ %s n'est pas au format valide (%s)",
+        'uploaded' => "Vous devez uploader un fichier"
     ];
 
     public function __construct(
