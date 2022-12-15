@@ -12,6 +12,7 @@ use Framework\Renderer\RendererInterface;
 use Framework\Router;
 use Framework\Session\FlashService;
 use Framework\Validator;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 
@@ -29,6 +30,13 @@ class PostCrudAction extends CrudAction
         private PostUpload $postUpload
     ) {
         parent::__construct($renderer, $router, $table, $flash);
+    }
+
+    public function delete(ServerRequestInterface $request): ResponseInterface
+    {
+        $post = $this->table->find($request->getAttribute('id'));
+        $this->postUpload->delete($post->image);
+        return parent::delete($request);
     }
 
     protected function formParams(array $params): array

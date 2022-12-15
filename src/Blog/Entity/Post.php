@@ -31,6 +31,9 @@ class Post
 
     public function getThumb()
     {
-        return DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'posts' . DIRECTORY_SEPARATOR . $this->image;
+        ['filename' => $filename, 'extension' => $extension] = pathinfo($this->image);
+        return DIRECTORY_SEPARATOR . 'uploads' .
+            DIRECTORY_SEPARATOR . 'posts' .
+            DIRECTORY_SEPARATOR . $filename . '_thumb.' . $extension;
     }
 }
