@@ -108,7 +108,7 @@ class CrudAction
             }
 
             Hydrator::hydrate($request->getParsedBody(), $item);
-            $item = $request->getParsedBody();
+            $errors = $validator->getErrors();
         }
 
         return $this->renderer->render("{$this->viewPath}/create", $this->formParams([

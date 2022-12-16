@@ -37,7 +37,7 @@ class Post
             DIRECTORY_SEPARATOR . $filename . '_thumb.' . $extension;
     }
 
-    public function getImageUrl()
+    public function getImageUrl(): string
     {
         return '/uploads/posts/' . $this->image;
     }

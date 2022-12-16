@@ -19,10 +19,16 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
                 <ul class="navbar-nav">
                     {{ admin_menu() }}
                 </ul>
+                <div class="navbar-nav">
+                    <form class="nav-item" action="{{ path('auth.logout') }}" method="POST">
+                        {{ csrf_input() }}
+                        <button class="nav-link active">Se déconnecter</button>
+                    </form>
+                </div>
             </div>
         </div>
     </nav>

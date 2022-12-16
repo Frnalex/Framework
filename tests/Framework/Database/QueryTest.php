@@ -92,7 +92,12 @@ class QueryTest extends DatabaseTestCase
             ->join('categories as c', 'c.id = p.category_id')
             ->join('categories as c2', 'c2.id = p.category_id', 'inner');
 
-        $this->assertEquals('SELECT name FROM posts as p LEFT JOIN categories as c ON c.id = p.category_id INNER JOIN categories as c2 ON c2.id = p.category_id', (string)$query);
+        $this->assertEquals(
+            'SELECT name FROM posts as p ' .
+            'LEFT JOIN categories as c ON c.id = p.category_id ' .
+            'INNER JOIN categories as c2 ON c2.id = p.category_id',
+            (string)$query
+        );
     }
 
     public function testLimitOrder()

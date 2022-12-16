@@ -24,11 +24,9 @@ class PaginatedQuery implements AdapterInterface
 
     /**
      * Returns an slice of the results representing the current page of items in the list.
-     *
      * @param int $offset
      * @param int $length
-     *
-     * @return Traversable
+     * @return QueryResult
      */
     public function getSlice(int $offset, int $length): QueryResult
     {
