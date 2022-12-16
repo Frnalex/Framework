@@ -4,6 +4,7 @@ namespace App\Blog\Actions;
 
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
+use Framework\Auth\User;
 use Framework\Renderer\RendererInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -12,7 +13,8 @@ class CategoryShowAction
     public function __construct(
         private RendererInterface $renderer,
         private PostTable $postTable,
-        private CategoryTable $categoryTable
+        private CategoryTable $categoryTable,
+        private readonly User $user // @phpstan-ignore-line
     ) {
     }
 
