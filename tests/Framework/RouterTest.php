@@ -3,7 +3,9 @@
 namespace Tests\Framework;
 
 use Framework\Router;
+use Framework\Router\Route;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
@@ -29,6 +31,18 @@ class RouterTest extends TestCase
 
         $this->assertEquals('blog', $route->getName());
         $this->assertEquals('test', call_user_func_array($route->getCallback(), [$request]));
+    }
+
+    public function testCrudMethod(): void
+    {
+        $this->router->crud('/blog', function () {
+        }, 'blog');
+        $this->assertEquals('blog.index', $this->router->match(new ServerRequest('GET', '/blog'))->getName());
+        $this->assertEquals('blog.create', $this->router->match(new ServerRequest('GET', '/blog/new'))->getName());
+        $this->assertInstanceOf(Route::class, $this->router->match(new ServerRequest('POST', '/blog/new')));
+        $this->assertEquals('blog.edit', $this->router->match(new ServerRequest('GET', '/blog/1'))->getName());
+        $this->assertInstanceOf(Route::class, $this->router->match(new ServerRequest('POST', '/blog/1')));
+        $this->assertInstanceOf(Route::class, $this->router->match(new ServerRequest('DELETE', '/blog/1')));
     }
 
     public function testGetMethodIfUrlDoesNotExists(): void

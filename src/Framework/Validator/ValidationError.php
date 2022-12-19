@@ -27,6 +27,9 @@ class ValidationError
 
     public function __toString()
     {
+        if (!array_key_exists($this->rule, $this->messages)) {
+            return "Le champ {$this->key} ne correspond pas à la règle {$this->rule}";
+        }
         $params = [...[$this->messages[$this->rule], $this->key], ...$this->attributes];
         return call_user_func_array('sprintf', $params);
     }

@@ -19,7 +19,7 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware = new CsrfMiddleware($this->session);
     }
 
-    public function testLetGetRequestPass()
+    public function testLetGetRequestPass(): void
     {
         $requestHandler = $this->getMockBuilder(RequestHandlerInterface::class)->onlyMethods(['handle'])->getMock();
         $requestHandler->expects($this->once())->method('handle');
@@ -30,7 +30,7 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $requestHandler);
     }
 
-    public function testBlockPostRequestWithoutCsrf()
+    public function testBlockPostRequestWithoutCsrf(): void
     {
         $requestHandler = $this->getMockBuilder(RequestHandlerInterface::class)->onlyMethods(['handle'])->getMock();
         $requestHandler->expects($this->never())->method('handle');
@@ -42,7 +42,7 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $requestHandler);
     }
 
-    public function testBlockPostRequestWithInvalidCsrf()
+    public function testBlockPostRequestWithInvalidCsrf(): void
     {
         $requestHandler = $this->getMockBuilder(RequestHandlerInterface::class)->onlyMethods(['handle'])->getMock();
         $requestHandler->expects($this->never())->method('handle');
@@ -56,7 +56,7 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $requestHandler);
     }
 
-    public function testLetPostWithTokenPass()
+    public function testLetPostWithTokenPass(): void
     {
         $requestHandler = $this->getMockBuilder(RequestHandlerInterface::class)->onlyMethods(['handle'])->getMock();
         $requestHandler->expects($this->once())->method('handle');
@@ -69,7 +69,7 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $requestHandler);
     }
 
-    public function testLetPostWithTokenPassOnce()
+    public function testLetPostWithTokenPassOnce(): void
     {
         $requestHandler = $this->getMockBuilder(RequestHandlerInterface::class)->onlyMethods(['handle'])->getMock();
         $requestHandler->expects($this->once())->method('handle');
@@ -84,7 +84,7 @@ class CsrfMiddlewareTest extends TestCase
         $this->middleware->process($request, $requestHandler);
     }
 
-    public function testLimitTheTokenNumber()
+    public function testLimitTheTokenNumber(): void
     {
         for ($i = 0; $i < 100; $i++) {
             $token = $this->middleware->generateToken();

@@ -5,7 +5,7 @@ namespace Tests\RendererFramework;
 use Framework\Renderer\PHPRenderer;
 use PHPUnit\Framework\TestCase;
 
-class RendererTest extends TestCase
+class PHPRendererTest extends TestCase
 {
     private PHPRenderer $renderer;
 

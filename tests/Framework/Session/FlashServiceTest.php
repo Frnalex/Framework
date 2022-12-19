@@ -17,6 +17,11 @@ class FlashServiceTest extends TestCase
         $this->flashService = new FlashService($this->session);
     }
 
+    public function testReturnNullIfNoFlash(): void
+    {
+        $this->assertNull($this->flashService->get('success'));
+    }
+
     public function testDeleteFlashAfterGettingIt(): void
     {
         $this->flashService->success('Success message');

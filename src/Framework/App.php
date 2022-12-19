@@ -24,12 +24,12 @@ class App implements RequestHandlerInterface
     /**
      * @var string[]
      */
-    private array $middlewares;
+    private array $middlewares = [];
 
     private int $index = 0;
 
     public function __construct(
-        private string $definition
+        private string|array|null $definition = null
     ) {
     }
 
@@ -52,8 +52,10 @@ class App implements RequestHandlerInterface
      * @param string|null $middleware
      * @return self
      */
-    public function pipe(string $routePrefix, ?string $middleware = null): self
-    {
+    public function pipe(
+        string|callable|MiddlewareInterface $routePrefix,
+        null|string|callable|MiddlewareInterface $middleware = null
+    ): self {
         if ($middleware === null) {
             $this->middlewares[] = $routePrefix;
         } else {
@@ -101,7 +103,10 @@ class App implements RequestHandlerInterface
                 $builder->writeProxiesToFile(true, 'tmp/proxies');
             }
 
-            $builder->addDefinitions($this->definition);
+            if ($this->definition) {
+                $builder->addDefinitions($this->definition);
+            }
+
             foreach ($this->modules as $module) {
                 if ($module::DEFINITIONS !== null) {
                     $builder->addDefinitions($module::DEFINITIONS);

@@ -5,21 +5,22 @@ namespace Framework\Middleware;
 use Framework\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use RuntimeException;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class RouterMiddleware
+class RouterMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private Router $router
     ) {
     }
 
-    public function __invoke(ServerRequestInterface $request, callable $next): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $route = $this->router->match($request);
 
         if (is_null($route)) {
-            return $next($request);
+            return $handler->handle($request);
         }
 
         $params = $route->getParams();
@@ -30,6 +31,6 @@ class RouterMiddleware
         );
 
         $request = $request->withAttribute(get_class($route), $route);
-        return $next($request);
+        return $handler->handle($request);
     }
 }

@@ -63,7 +63,7 @@ class QueryResult implements ArrayAccess, Iterator
 
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->get($this->index);
+        return $this->get($offset);
     }
 
     public function offsetSet(mixed $offset, mixed $value): void

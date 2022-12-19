@@ -7,7 +7,7 @@ use Tests\DatabaseTestCase;
 
 class QueryTest extends DatabaseTestCase
 {
-    public function testSimpleQuery()
+    public function testSimpleQuery(): void
     {
         $query = new Query();
         $query->from('posts')->select('name');
@@ -15,7 +15,7 @@ class QueryTest extends DatabaseTestCase
         $this->assertEquals('SELECT name FROM posts', (string)$query);
     }
 
-    public function testWithWhere()
+    public function testWithWhere(): void
     {
         $query = (new Query())
             ->from('posts', 'p')
@@ -30,7 +30,7 @@ class QueryTest extends DatabaseTestCase
         $this->assertEquals('SELECT * FROM posts as p WHERE (a = :a OR b = :b) AND (c = :c)', (string)$query2);
     }
 
-    public function testFetchAll()
+    public function testFetchAll(): void
     {
         $pdo = $this->getPDO();
         $this->migrateDatabase($pdo);
@@ -53,7 +53,7 @@ class QueryTest extends DatabaseTestCase
         $this->assertEquals(29, $posts);
     }
 
-    public function testHydrateEntity()
+    public function testHydrateEntity(): void
     {
         $pdo = $this->getPDO();
         $this->migrateDatabase($pdo);
@@ -67,7 +67,7 @@ class QueryTest extends DatabaseTestCase
         $this->assertEquals('test', substr($posts[0]->getSlug(), -4));
     }
 
-    public function testLazyHydrate()
+    public function testLazyHydrate(): void
     {
         $pdo = $this->getPDO();
         $this->migrateDatabase($pdo);
@@ -84,7 +84,7 @@ class QueryTest extends DatabaseTestCase
         $this->assertSame($post, $post2);
     }
 
-    public function testJoinQuery()
+    public function testJoinQuery(): void
     {
         $query = (new Query())
             ->from('posts', 'p')
@@ -100,7 +100,7 @@ class QueryTest extends DatabaseTestCase
         );
     }
 
-    public function testLimitOrder()
+    public function testLimitOrder(): void
     {
         $query = (new Query())
             ->from('posts', 'p')

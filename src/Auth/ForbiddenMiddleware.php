@@ -2,12 +2,10 @@
 
 namespace App\Auth;
 
-use Exception;
 use Framework\Auth\ForbiddenException;
 use Framework\Response\RedirectResponse;
 use Framework\Session\FlashService;
 use Framework\Session\SessionInterface;
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -22,6 +20,12 @@ class ForbiddenMiddleware implements MiddlewareInterface
     ) {
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     * @throws TypeError
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
@@ -32,9 +36,8 @@ class ForbiddenMiddleware implements MiddlewareInterface
             if (strpos($error->getMessage(), \Framework\Auth\User::class)) {
                 return $this->redirectLogin($request);
             }
+            throw $error;
         }
-
-        throw new ForbiddenException();
     }
 
     private function redirectLogin(ServerRequestInterface $request): ResponseInterface

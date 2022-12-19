@@ -2,7 +2,6 @@
 
 namespace Framework\Middleware;
 
-use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,16 +13,19 @@ class RoutePrefixedMiddleware implements MiddlewareInterface
     public function __construct(
         private ContainerInterface $container,
         private string $prefix,
-        private string $middleware
+        private string|MiddlewareInterface $middleware
     ) {
-        # code...
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $path = $request->getUri()->getPath();
         if (strpos($path, $this->prefix) === 0) {
-            return $this->container->get($this->middleware)->process($request, $handler);
+            if (is_string($this->middleware)) {
+                return $this->container->get($this->middleware)->process($request, $handler);
+            } else {
+                return $this->middleware->process($request, $handler);
+            }
         }
 
         return $handler->handle($request);

@@ -17,7 +17,7 @@ class MethodMiddlewareTest extends TestCase
         $this->middleware = new MethodMiddleware();
     }
 
-    public function testAddMethod()
+    public function testAddMethod(): void
     {
         $requestHandler = $this->getMockBuilder(RequestHandlerInterface::class)->onlyMethods(['handle'])->getMock();
 

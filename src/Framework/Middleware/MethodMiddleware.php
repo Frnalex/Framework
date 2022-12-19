@@ -10,7 +10,7 @@ use RuntimeException;
 
 class MethodMiddleware implements MiddlewareInterface
 {
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $parsedBody = $request->getParsedBody();
 
@@ -25,6 +25,6 @@ class MethodMiddleware implements MiddlewareInterface
             $request = $request->withMethod($parsedBody['_method']);
         }
 
-        return $next->handle($request);
+        return $handler->handle($request);
     }
 }

@@ -9,12 +9,12 @@ use Framework\Router;
 use Framework\Session\FlashService;
 use Framework\Validator;
 use Psr\Http\Message\ServerRequestInterface;
-use RuntimeException;
 
 class CategoryCrudAction extends CrudAction
 {
     protected string $viewPath = "@blog/admin/categories";
-    protected string $routePrefix = "blog.category.admin";
+    protected ?string $routePrefix = "blog.category.admin";
+    protected array $acceptedParams = ["name", "slug"];
 
     public function __construct(
         RendererInterface $renderer,
@@ -23,21 +23,6 @@ class CategoryCrudAction extends CrudAction
         FlashService $flash,
     ) {
         parent::__construct($renderer, $router, $table, $flash);
-    }
-
-    protected function getParams(ServerRequestInterface $request, object $item): array
-    {
-        $body = $request->getParsedBody();
-
-        if (!is_array($body)) {
-            throw new RuntimeException("body must be an array");
-        }
-
-        return array_filter(
-            $body,
-            fn ($key) => in_array($key, ['name', 'slug']),
-            ARRAY_FILTER_USE_KEY
-        );
     }
 
     protected function getValidator(ServerRequestInterface $request): Validator

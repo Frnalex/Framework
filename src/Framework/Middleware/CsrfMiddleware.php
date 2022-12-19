@@ -19,7 +19,7 @@ class CsrfMiddleware implements MiddlewareInterface
     ) {
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (in_array($request->getMethod(), ["POST", "PUT", "DELETE"])) {
             $params = $request->getParsedBody() ?: [];
@@ -30,10 +30,10 @@ class CsrfMiddleware implements MiddlewareInterface
             }
 
             $this->useToken($params[$this->formKey]);
-            return $next->handle($request);
+            return $handler->handle($request);
         }
 
-        return $next->handle($request);
+        return $handler->handle($request);
     }
 
     public function generateToken(): string

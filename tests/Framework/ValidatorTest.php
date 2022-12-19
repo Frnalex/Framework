@@ -3,6 +3,7 @@
 namespace Tests\Framework;
 
 use Framework\Validator;
+use GuzzleHttp\Psr7\UploadedFile;
 use Tests\DatabaseTestCase;
 
 class ValidatorTest extends DatabaseTestCase
@@ -131,5 +132,35 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertTrue($this->makeValidator(['name' => 'value unique'])->unique('name', 'test', $pdo)->isValid());
         $this->assertTrue($this->makeValidator(['name' => 'value 1'])->unique('name', 'test', $pdo, 1)->isValid());
         $this->assertFalse($this->makeValidator(['name' => 'value 2'])->unique('name', 'test', $pdo, 1)->isValid());
+    }
+
+    public function testUploadedFile(): void
+    {
+        $file = $this->getMockBuilder(UploadedFile::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getError'])
+            ->getMock();
+        $file->expects($this->once())->method('getError')->willReturn(UPLOAD_ERR_OK);
+
+        $file2 = $this->getMockBuilder(UploadedFile::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getError'])
+            ->getMock();
+        $file2->expects($this->once())->method('getError')->willReturn(UPLOAD_ERR_CANT_WRITE);
+
+        $this->assertTrue($this->makeValidator(['image' => $file])->uploaded('image')->isValid());
+        $this->assertFalse($this->makeValidator(['image' => $file2])->uploaded('image')->isValid());
+    }
+
+    public function testExtension(): void
+    {
+        $file = $this->getMockBuilder(UploadedFile::class)->disableOriginalConstructor()->getMock();
+        $file->expects($this->any())->method('getError')->willReturn(UPLOAD_ERR_OK);
+        $file->expects($this->any())->method('getClientFileName')->willReturn('demo.jpg');
+        $file->expects($this->any())
+            ->method('getClientMediaType')
+            ->will($this->onConsecutiveCalls('image/jpeg', 'fake/php'));
+        $this->assertTrue($this->makeValidator(['image' => $file])->extension('image', ['jpg'])->isValid());
+        $this->assertFalse($this->makeValidator(['image' => $file])->extension('image', ['jpg'])->isValid());
     }
 }

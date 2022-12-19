@@ -10,17 +10,20 @@ use Framework\Session\FlashService;
 use Framework\Validator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use stdClass;
 
 class CrudAction
 {
     use RouterAwareAction;
 
     protected string $viewPath;
-    protected string $routePrefix;
+    protected ?string $routePrefix = null;
     protected array $messages = [
         "create" => "L'élément a bien été créé",
         "edit" => "L'élément a bien été modifié",
     ];
+    protected array $acceptedParams = [];
+
 
     public function __construct(
         private RendererInterface $renderer,
@@ -129,7 +132,7 @@ class CrudAction
 
         return array_filter(
             $body,
-            fn ($key) => in_array($key, []),
+            fn ($key) => in_array($key, $this->acceptedParams),
             ARRAY_FILTER_USE_KEY
         );
     }
@@ -150,7 +153,7 @@ class CrudAction
      */
     protected function getNewEntity(): mixed
     {
-        return [];
+        return new stdClass();
     }
 
     /**

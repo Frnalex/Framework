@@ -8,7 +8,7 @@ use Dotenv\Dotenv;
 use Framework\App;
 use Framework\Auth\LoggedInMiddleware;
 use Framework\Middleware\CsrfMiddleware;
-use Framework\Middleware\DispacherMiddleware;
+use Framework\Middleware\DispatcherMiddleware;
 use Framework\Middleware\MethodMiddleware;
 use Framework\Middleware\NotFoundMiddleware;
 use Framework\Middleware\RouterMiddleware;
@@ -39,7 +39,7 @@ $app->pipe(Whoops::class)
     ->pipe(MethodMiddleware::class)
     ->pipe(CsrfMiddleware::class)
     ->pipe(RouterMiddleware::class)
-    ->pipe(DispacherMiddleware::class)
+    ->pipe(DispatcherMiddleware::class)
     ->pipe(NotFoundMiddleware::class);
 
 if (php_sapi_name() !== 'cli') {

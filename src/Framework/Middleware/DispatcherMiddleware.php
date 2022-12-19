@@ -7,20 +7,22 @@ use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class DispacherMiddleware
+class DispatcherMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private ContainerInterface $container
     ) {
     }
 
-    public function __invoke(ServerRequestInterface $request, callable $next): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $route = $request->getAttribute(Route::class);
 
         if (is_null($route)) {
-            return $next($request);
+            return $handler->handle($request);
         }
 
         $callback = $route->getCallback();
