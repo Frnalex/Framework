@@ -1,0 +1,25 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+<h1>Nous contacter</h1>
+
+{% if flash('success') %}
+<div class="alert alert-success">
+    {{ flash('success') }}
+</div>
+{% endif %}
+
+{% if flash('error') %}
+<div class="alert alert-danger">
+    {{ flash('error') }}
+</div>
+{% endif %}
+
+<form action="{{ path('contact') }}" method="POST">
+    {{ csrf_input() }}
+    {{ field('name', null, 'Votre nom', {class: 'form-control'}) }}
+    {{ field('email', null, 'Votre email', {class: 'form-control'}) }}
+    {{ field('content', null, 'Votre message', {type: 'textarea', class: 'form-control'}) }}
+    <button class="btn btn-primary">Envoyer</button>
+</form>
+{% endblock %}

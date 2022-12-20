@@ -15,7 +15,8 @@ class ValidationError
         'exists' => "Le champ %s n'existe pas dans la table %s",
         'unique' => "Le champ %s existe déjà",
         'filetype' => "Le champ %s n'est pas au format valide (%s)",
-        'uploaded' => "Vous devez uploader un fichier"
+        'uploaded' => "Vous devez uploader un fichier",
+        'email' => "Cet email ne semble pas valide"
     ];
 
     public function __construct(

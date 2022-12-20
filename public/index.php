@@ -4,6 +4,7 @@ use App\Admin\AdminModule;
 use App\Auth\AuthModule;
 use App\Auth\ForbiddenMiddleware;
 use App\Blog\BlogModule;
+use App\Contact\ContactModule;
 use Dotenv\Dotenv;
 use Framework\App;
 use Framework\Auth\LoggedInMiddleware;
@@ -27,6 +28,7 @@ $dotenv->load();
 
 $app = (new App('config/config.php'))
     ->addModule(AdminModule::class)
+    ->addModule(ContactModule::class)
     ->addModule(BlogModule::class)
     ->addModule(AuthModule::class);
 

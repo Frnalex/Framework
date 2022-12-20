@@ -11,13 +11,17 @@ use Framework\Session\FlashService;
 use GuzzleHttp\Psr7\ServerRequest;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 class CrudActionTest extends TestCase
 {
-    private $flash;
-    private $table;
+    private MockObject $renderer;
+    private MockObject $flash;
+    private MockObject $table;
+    private MockObject $query;
+
 
     public function setUp(): void
     {
@@ -39,8 +43,16 @@ class CrudActionTest extends TestCase
         $router = $this->getMockBuilder(Router::class)->getMock();
         $router->method('generateUri')->willReturnCallback(fn ($url) => $url);
 
-        /** @var Router $router */
-        $action = new CrudAction($this->renderer, $router, $this->table, $this->flash);
+        $table = $this->table;
+        $renderer = $this->renderer;
+        $flash = $this->flash;
+        /**
+         * @var FlashService $flash
+         * @var Table $table
+         * @var RendererInterface $renderer
+         * @var Router $router
+         */
+        $action = new CrudAction($renderer, $router, $table, $flash);
         $property = (new ReflectionClass($action))->getProperty('viewPath');
         $property->setAccessible(true);
         $property->setValue($action, '@test');

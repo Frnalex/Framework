@@ -13,8 +13,7 @@ class CategoryShowAction
     public function __construct(
         private RendererInterface $renderer,
         private PostTable $postTable,
-        private CategoryTable $categoryTable,
-        private readonly User $user // @phpstan-ignore-line
+        private CategoryTable $categoryTable
     ) {
     }
 

@@ -8,6 +8,7 @@ parameters:
     paths:
         - public
         - src
+        - tests
 
     checkGenericClassInNonGenericObjectType: false
 

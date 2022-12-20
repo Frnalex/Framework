@@ -176,6 +176,15 @@ class Validator
         return $this;
     }
 
+    public function email(string $key): self
+    {
+        $value = $this->getValue($key);
+        if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
+            $this->addError($key, 'email');
+        }
+        return $this;
+    }
+
     /**
      * Vérifie le format de fichier
      * @param string $key

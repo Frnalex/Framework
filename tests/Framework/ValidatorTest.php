@@ -163,4 +163,10 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertTrue($this->makeValidator(['image' => $file])->extension('image', ['jpg'])->isValid());
         $this->assertFalse($this->makeValidator(['image' => $file])->extension('image', ['jpg'])->isValid());
     }
+
+    public function testEmail(): void
+    {
+        $this->assertTrue($this->makeValidator(['email' => 'test@test.com'])->email('email')->isValid());
+        $this->assertFalse($this->makeValidator(['email' => 'not valid'])->email('email')->isValid());
+    }
 }

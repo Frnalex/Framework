@@ -22,7 +22,8 @@
         "pagerfanta/pagerfanta": "^3.6",
         "middlewares/whoops": "^2.0",
         "vlucas/phpdotenv": "^5.5",
-        "intervention/image": "^2.7"
+        "intervention/image": "^2.7",
+        "symfony/mailer": "^6.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

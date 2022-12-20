@@ -1,5 +1,6 @@
 <?php
 
+use Framework\MailerFactory;
 use Framework\Middleware\CsrfMiddleware;
 use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRendererFactory;
@@ -15,6 +16,7 @@ use Framework\Twig\PagerFantaExtension;
 use Framework\Twig\TextExtension;
 use Framework\Twig\TimeExtension;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Mailer\MailerInterface;
 
 return [
     'env' => $_ENV['ENV'],
@@ -46,5 +48,9 @@ return [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
             ]
         );
-    }
+    },
+
+    // MAILER
+    'mail.to' => 'admin@admin.fr',
+    MailerInterface::class => \DI\factory(MailerFactory::class),
 ];
