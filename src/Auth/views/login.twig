@@ -12,7 +12,7 @@
 
     {{ csrf_input() }}
     {{ field('username', null, "Nom d'utilisateur", {class: 'form-control'}) }}
-    {{ field('password', null, "Mot de passe", {class: 'form-control'}) }}
+    {{ field('password', null, "Mot de passe", {class: 'form-control', type: 'password'}) }}
 
     <button class="btn btn-primary">Se connecter</button>
 

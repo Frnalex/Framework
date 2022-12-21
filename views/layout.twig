@@ -31,13 +31,17 @@
                 <div class="navbar-nav">
                     {% if current_user() %}
                     <span class="navbar-text">Connecté en tant que {{ current_user().username }}</span>
-                    <form class="nav-item" action="{{ path('auth.logout') }}" method="POST">
+                    &nbsp;&nbsp;&nbsp;
+                    <form action="{{ path('auth.logout') }}" method="POST">
                         {{ csrf_input() }}
-                        <button class="nav-link active">Se déconnecter</button>
+                        <button class="btn btn-danger">Se déconnecter</button>
                     </form>
                     {% else %}
                     <div class="nav-item">
                         <a class="nav-link active" href="{{ path('auth.login') }}">Se connecter</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link active" href="{{ path('account.signup') }}">S'inscrire</a>
                     </div>
                     {% endif %}
                 </div>

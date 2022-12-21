@@ -20,7 +20,7 @@ class FormExtensionTest extends TestCase
         $this->assertSimilar('
             <div class="mb-3">
                 <label class="form-label" for="name">Titre test</label>
-                <input type="text" name="name" id="name" value="test">
+                <input name="name" id="name" type="text" value="test">
             </div>
         ', $html);
     }
@@ -37,7 +37,7 @@ class FormExtensionTest extends TestCase
         $this->assertSimilar('
             <div class="mb-3">
                 <label class="form-label" for="name">Titre test</label>
-                <input type="text" class="test" name="name" id="name" value="test">
+                <input class="test" name="name" id="name" type="text" value="test">
             </div>
         ', $html);
     }
@@ -60,7 +60,7 @@ class FormExtensionTest extends TestCase
         $this->assertSimilar('
             <div class="mb-3 has-danger">
                 <label class="form-label" for="name">Titre test</label>
-                <input type="text" class="is-invalid" name="name" id="name" value="test">
+                <input class="is-invalid" name="name" id="name" type="text" value="test">
                 <div class="invalid-feedback">erreur</div>
             </div>
         ', $html);

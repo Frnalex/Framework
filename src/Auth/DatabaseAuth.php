@@ -29,7 +29,7 @@ class DatabaseAuth implements Auth
             return null;
         }
 
-        $this->session->set('auth.user', $user->id);
+        $this->setUser($user);
         return $user;
     }
 
@@ -58,5 +58,11 @@ class DatabaseAuth implements Auth
             $this->session->delete('auth.user');
             return null;
         }
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->session->set('auth.user', $user->id);
+        $this->user = $user;
     }
 }

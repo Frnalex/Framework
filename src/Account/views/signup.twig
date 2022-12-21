@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+
+<form action="{{ path('account.signup') }}" method="POST">
+
+    {{ csrf_input() }}
+    {{ field('username', user.username, "Nom d'utilisateur", {class: 'form-control'}) }}
+    {{ field('email', user.email, "Email", {class: 'form-control', type: 'email'}) }}
+    {{ field('password', null, "Mot de passe", {class: 'form-control', type: 'password'}) }}
+    {{ field('password_confirm', null, "Confirmer le mot de passe", {class: 'form-control', type: 'password'}) }}
+
+    <button class="btn btn-primary">S'inscrire</button>
+
+</form>
+
+{% endblock %}
