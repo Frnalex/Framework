@@ -17,7 +17,7 @@ class ValidationError
         'filetype' => "Le champ %s n'est pas au format valide (%s)",
         'uploaded' => "Vous devez uploader un fichier",
         'email' => "Cet email ne semble pas valide",
-        'confirm' => "Le champ %s n'est pas le même que le champ %s"
+        'confirm' => "Vous n'avez pas confirmé le champ %s"
     ];
 
     public function __construct(

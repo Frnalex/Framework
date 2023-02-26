@@ -11,6 +11,11 @@ class User implements UserInterface
     public string $email;
     public string $password;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getUsername(): string
     {
         return $this->username;

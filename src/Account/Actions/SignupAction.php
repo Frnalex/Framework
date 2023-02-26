@@ -39,8 +39,7 @@ class SignupAction
             ->length('password', 4)
             ->confirm('password')
             ->unique('username', $this->userTable)
-            ->unique('email', $this->userTable)
-        ;
+            ->unique('email', $this->userTable);
 
         if ($validator->isValid()) {
             $userParams = [
@@ -53,7 +52,7 @@ class SignupAction
             $user->id = $this->userTable->getPdo()->lastInsertId();
             $this->auth->setUser($user);
             $this->flashService->success('Votre compte a bien été créé');
-            return new RedirectResponse($this->router->generateUri('account.profile'));
+            return new RedirectResponse($this->router->generateUri('account'));
         }
 
         $errors = $validator->getErrors();

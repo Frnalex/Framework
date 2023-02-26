@@ -124,7 +124,7 @@ class SignupActionTest extends ActionTestCase
                 $this->assertEquals(3, $user->id);
                 return true;
             }));
-        $this->flashService->expects($this->once())->method('success')->with('Votre compte a bien été créé') ;
+        $this->flashService->expects($this->once())->method('success')->with('Votre compte a bien été créé');
 
         $response = call_user_func($this->action, $this->makeRequest('/test', [
             'username' => 'Test username',
@@ -133,6 +133,6 @@ class SignupActionTest extends ActionTestCase
             'password_confirm' => 'password'
         ]));
 
-        $this->assertRedirect($response, 'account.profile');
+        $this->assertRedirect($response, 'account');
     }
 }

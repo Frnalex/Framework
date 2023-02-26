@@ -8,7 +8,7 @@ class Route
 {
     public function __construct(
         private string $name,
-        private Closure|string $callback,
+        private Closure|string|array $callback,
         private array $parameters
     ) {
     }
@@ -22,9 +22,9 @@ class Route
     }
 
     /**
-     * @return Closure|string
+     * @return Closure|string|array
      */
-    public function getCallback(): Closure|string
+    public function getCallback(): Closure|string|array
     {
         return $this->callback;
     }

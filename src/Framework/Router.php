@@ -26,17 +26,17 @@ class Router
      * @param callable|string $callable
      * @param string|null $name
      */
-    public function get(string $path, callable|string $callable, ?string $name = ''): void
+    public function get(string $path, callable|string|array $callable, ?string $name = ''): void
     {
         $this->altoRouter->map('GET', $path, $callable, $name);
     }
 
     /**
      * @param string $path
-     * @param callable|string $callable
+     * @param callable|string|array $callable
      * @param string|null $name
      */
-    public function post(string $path, callable|string $callable, ?string $name = ''): void
+    public function post(string $path, callable|string|array $callable, ?string $name = ''): void
     {
         $this->altoRouter->map('POST', $path, $callable, $name);
     }
